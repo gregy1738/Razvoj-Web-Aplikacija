@@ -44,6 +44,7 @@ namespace Vjezba.Web.Controllers
         [HttpPost]
         public ActionResult AdvancedSearch(ClientFilterModel filter)
         {
+
             var clientQuery = MockClientRepository.Instance.All();
 
             //Primjer iterativnog građenja upita - dodaje se "where clause" samo u slučaju da je parametar doista proslijeđen.
@@ -60,10 +61,30 @@ namespace Vjezba.Web.Controllers
             if (!string.IsNullOrWhiteSpace(filter.City))
                 clientQuery = clientQuery.Where(p => p.City != null && p.City.Name.ToLower().Contains(filter.City.ToLower()));
 
-            ViewBag.ActiveTab = 3;
+            ViewBag.ActiveTab = 4;
 
             var model = clientQuery.ToList();
             return View("Index", model);
+        }
+
+        public ActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Client unos) 
+        {
+            var _clientRepistory = MockClientRepository.Instance;
+            _clientRepistory.All();
+            City grad = new City(); 
+            unos.ID = 158;
+            grad.Name = "Muzi";
+            unos.City = grad;
+            bool uspjesnoDodan = _clientRepistory.InsertOrUpdate(unos);
+
+            return View();
         }
 
         public IActionResult Details(int? id = null)

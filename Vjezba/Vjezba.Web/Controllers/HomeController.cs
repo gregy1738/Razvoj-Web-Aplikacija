@@ -13,13 +13,36 @@ namespace Vjezba.Web.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy(string LANG)
         {
+
+            if(LANG != null)
+            {
+                if(LANG.ToLower().Equals("en"))
+                {
+                    ViewBag.Message = "Welcome";
+                }
+                else if (LANG.ToLower().Equals("hr"))
+                {
+                    ViewBag.Message = "Dobrodosli";
+                }
+                else if (LANG.ToLower().Equals("de"))
+                {
+                    ViewBag.Message = "Willkommen";
+                }
+                else if (LANG.ToLower().Equals("zh"))
+                {
+                    ViewBag.Message = "欢迎 / Huānyíng";
+                }
+            }
+
             return View();
         }
 
+        [Route("cesto-postavljena-pitanja/{selected:regex(^\\d{{1,2}}$)?}")]
         public IActionResult FAQ(int? selected = null)
         {
+
             ViewData["selected"] = selected;
 
             return View();

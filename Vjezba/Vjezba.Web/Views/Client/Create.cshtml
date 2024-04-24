@@ -1,0 +1,52 @@
+﻿@model Vjezba.Web.Mock.Client
+
+
+<ol class="breadcrumb">
+    <li><a asp-action="Index">Popis klijenata</a></li>
+</ol>
+
+<form asp-action="Create" method="post">
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="FirstName" class="form-control" placeholder="Ime" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="LastName" class="form-control" placeholder="Prezime" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="Gender" class="form-control" placeholder="Spol" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="Address" class="form-control" placeholder="Adresa" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col">
+            <input asp-for="PhoneNumber" class="form-control" placeholder="Telefonski broj" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+
+@*
+        public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public char Gender { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; } *@

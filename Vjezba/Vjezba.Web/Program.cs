@@ -24,6 +24,17 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "contact",
+    pattern: "kontakt-forma",
+    defaults: new { controller = "Home", action = "Contact" });
+
+app.MapControllerRoute(
+    name: "about",
+    pattern: "o-aplikaciji/{LANG}",
+    defaults: new { controller = "Home", action = "Privacy" },
+    constraints: new { LANG = @"^[a-zA-Z]{2}$" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

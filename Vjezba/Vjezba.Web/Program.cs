@@ -8,6 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
+builder.Services.AddDbContext<ClientManagerDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("ClientManagerDbContext"),
+            opt => opt.MigrationsAssembly("Vjezba.DAL")));
+
+//builder.Services.AddDbContext<ClientManagerDbContext>(options =>
+//options.UseSqlServer(
+//        "Data Source=127.0.0.1;Initial Catalog=mvc-2023-24;User ID=sa;Password=yourStrong(!)Password;MultipleActiveResultSets=True;TrustServerCertificate=True;",
+//            b => b.MigrationsAssembly("Vjezba.DAL")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,10 +27,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-builder.Services.AddDbContext<ClientManagerDbContext>(options =>
-options.UseSqlServer(
-builder.Configuration.GetConnectionString("ClientManagerDbContext"), opt => opt.MigrationsAssembly("Vjezba.DAL")));
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

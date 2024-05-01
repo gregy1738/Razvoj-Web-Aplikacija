@@ -91,8 +91,7 @@ namespace Vjezba.Web.Controllers
         public ActionResult Create(Client unos)
         {
             Random random = new Random();
-            unos.CityID = random.Next(1, 3);
-            this._dbContext.Entry(unos).Reference(c => c.City).Load();
+            unos.CityID = random.Next(1, 4);
             this._dbContext.Clients.Add(unos);
             this._dbContext.SaveChanges();
 

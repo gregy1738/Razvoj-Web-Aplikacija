@@ -59,6 +59,9 @@
 			<dd>
 				@Model?.City?.Name
 			</dd>
+			<dt>
+				<button class="btn btn-primary"><a asp-action="Edit" asp-route-id="@Model.ID" style="text-decoration: none; color:white">Edit</a></button>
+			</dt>
 		</dl>
 	</div>
 

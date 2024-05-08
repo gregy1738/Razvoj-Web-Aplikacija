@@ -91,6 +91,9 @@ namespace Vjezba.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("WorkingExperience")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.HasIndex("CityID");

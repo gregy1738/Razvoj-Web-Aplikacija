@@ -30,11 +30,7 @@ public class Client
 	[Required(ErrorMessage = "Polje Tel je obavezno.")]
 	public string PhoneNumber { get; set; }
 
-	//[Required(ErrorMessage = "Polje Radni staž je obavezno")]
-	//[Range(1, 100, ErrorMessage = "Godine radnog staža moraju biti između 0 i 100")]
-	public int WorkingExperience { get; set; }
-
-	[ForeignKey(nameof(City))]
+    [ForeignKey(nameof(City))]
 	public int? CityID { get; set; }
 
 	public City? City { get; set; }

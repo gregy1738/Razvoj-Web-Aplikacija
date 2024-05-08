@@ -91,7 +91,8 @@ namespace Vjezba.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WorkingExperience")
+                    b.Property<int?>("WorkingExperience")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("ID");

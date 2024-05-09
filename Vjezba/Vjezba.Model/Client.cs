@@ -13,6 +13,7 @@ public class Client
 	public int ID { get; set; }
 
 	[Required(ErrorMessage = "Polje Ime je obavezno.")]
+	[StringLength(30, MinimumLength = 2, ErrorMessage = "Ime mora imati izmedu 2 i 25 znakova")]
 	public string FirstName { get; set; }
 
 	[Required(ErrorMessage = "Polje Prezime je obavezno.")]
@@ -34,6 +35,9 @@ public class Client
     [Range(1, 100, ErrorMessage = "Godine radnog staža moraju biti između 0 i 100")]
     public int? WorkingExperience { get; set; }
 
+	public DateTime? DateOfBirth { get; set; }
+
+	[Required]
     [ForeignKey(nameof(City))]
 	public int? CityID { get; set; }
 

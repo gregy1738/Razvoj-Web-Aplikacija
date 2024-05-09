@@ -19,3 +19,28 @@
 		</form>
 	</div>
 </div>
+
+@section scripts {
+@*     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"> *@
+
+    <script id="search-js"
+            defer
+            src="https://api.mapbox.com/search-js/v1.0.0-beta.21/web.js">
+    </script>
+
+    <script>
+        const script = document.getElementById('search-js');
+        script.onload = function () {
+            mapboxsearch.autofill({
+                accessToken: 'pk.eyJ1IjoiZ3JlZ3kxMjMiLCJhIjoiY2x2ejlvMjZhMmp6ZjJpcXptM3BqdmE3OSJ9.-84MWBkboePBJbPXwG3ZAQ'
+            });
+
+            function updateHiddenAddress() {
+                const visibleAddress = document.getElementById('addressInput').value;
+                document.getElementById('hiddenAddress').value = visibleAddress;
+            }
+            document.getElementById('addressInput').addEventListener('input', updateHiddenAddress);
+        };
+    </script>
+}

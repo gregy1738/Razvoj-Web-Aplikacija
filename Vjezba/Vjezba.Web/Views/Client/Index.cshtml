@@ -9,7 +9,7 @@
 	<partial name="_ClientFilter" model="new ClientFilterModel()" />
 </div>
 
-<table style="margin-top: 20px;" class="table table-condensed">
+<table style="margin-top: 20px;" class="table table-condensed" id="clientTable">
 	<thead>
 		<tr>
 			<th>Client</th>
@@ -34,3 +34,37 @@
 		}
 	</tbody>
 </table>
+
+@section scripts {
+	<script>
+		$(document).ready(function () {
+			// Set opacity to 0.5 for the whole table initially
+			$('#clientTable').css('opacity', '0.5');
+
+			// Handle hover events on table rows
+			$("tr").hover(
+				function () {
+					// When mouse enters, set opacity to 1
+					$(this).css('opacity', '1');
+				},
+				function () {
+					// When mouse leaves, reset opacity to 0.5
+					$(this).css('opacity', '0.5');
+				}
+			);
+
+			$("#clientTable td").click(function () {
+				// Toggle bold font weight for clicked cell
+				$(this).toggleClass('bold-text');
+
+				// Toggle bold font weight for entire row
+				$(this).closest('tr').toggleClass('bold-text');
+			});
+		});
+	</script>
+	<style>
+		.bold-text{
+			font-weight:bold;
+		}
+	</style>
+}

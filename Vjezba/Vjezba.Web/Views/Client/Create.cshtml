@@ -18,3 +18,17 @@
 		</form>
 	</div>
 </div>
+
+@section scripts {
+	<script>
+		$("#Email").on("focus", function () {
+		    $("#hintEmail").show();
+		});
+		$("#Email").on("blur", function () {
+			$("#hintEmail").hide();
+		});
+		window.onbeforeunload = function () {
+			return "";
+		}
+	</script>
+}

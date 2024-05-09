@@ -11,18 +11,30 @@
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label class="control-label">Gradovi</label>
+        <select asp-for="CityID" asp-items="ViewBag.PossibleCities" class="form-control"></select>
+        <span asp-validation-for="CityID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" id="Email"/>
+        <span class="form-control" id="hintEmail">Popunite polje email</span>
         <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Radni staž</label>
+        <input asp-for="WorkingExperience" class="form-control" />
+        <span asp-validation-for="WorkingExperience" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label class="control-label">Spol</label>
         <input asp-for="Gender" class="form-control" />
         <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="form-group" id="map">
         <label class="control-label">Obitavalište</label>
-        <input asp-for="Address" class="form-control" />
+        <input asp-for="Address" name="address" id="addressInput" autocomplete="address-line1" class="form-control" />
+        <input type="hidden" asp-for="Address" id="hiddenAddress" />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -33,3 +45,10 @@
     <div class="form-group">
         <input type="submit" value="Spremi" class="btn btn-outline-success" />
     </div>
+
+
+    <style>
+        #hintEmail{
+            display: none;
+        }
+    </style>

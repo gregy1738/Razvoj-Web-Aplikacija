@@ -21,9 +21,6 @@
 </div>
 
 @section scripts {
-@*     <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet"> *@
-
     <script id="search-js"
             defer
             src="https://api.mapbox.com/search-js/v1.0.0-beta.21/web.js">
@@ -42,5 +39,8 @@
             }
             document.getElementById('addressInput').addEventListener('input', updateHiddenAddress);
         };
+        $(function () {
+            $('#datepicker').datepicker();
+        });
     </script>
 }

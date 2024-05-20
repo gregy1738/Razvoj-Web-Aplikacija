@@ -1,4 +1,8 @@
-﻿@model Client
+﻿@using System.Globalization
+@{
+    string dateFormat = CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern;
+}
+@model Client
 
     <div class="form-group">
         <label class="control-label">Ime</label>
@@ -42,6 +46,11 @@
         <input asp-for="PhoneNumber" class="form-control" />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label class="control-label">Datum rođenja</label>
+        <input type="text" id="datepicker" class="form-control" asp-for="DateOfBirth" data-date-format="@dateFormat">
+    </div>
+    
     <div class="form-group">
         <input type="submit" value="Spremi" class="btn btn-outline-success" />
     </div>

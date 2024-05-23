@@ -1,21 +1,82 @@
 ﻿@model Vjezba.Model.Client
 
 @{
-	ViewData["Title"] = "Uređivanje klijenta";
+    ViewData["Title"] = "Uređivanje klijenta";
 }
 
 <nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a asp-action="Index">Popis klijenata</a></li>
-		<li class="breadcrumb-item active" aria-current="page">Uređivanje klijenta</li>
-	</ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-action="Index">Popis klijenata</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Uređivanje klijenta</li>
+    </ol>
 </nav>
 
 <div class="row">
-	<div class="col-md-4">
-		<form asp-action="Edit">
-			<input type="hidden" asp-for="ID" />
-			<partial name="_CreateOrEdit" />
-		</form>
-	</div>
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="ID" />
+            <partial name="_CreateOrEdit" />
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h4>Upload Datoteka</h4>
+        <form asp-action="UploadAttachment"
+              asp-route-clientID="@Model.ID"
+              enctype="multipart/form-data"
+              class="dropzone"
+              id="profilePhotoDz">
+        </form>
+    </div>
+
+    <div class="col-md-4" id="clientAttachments">
+        <partial name="_AttachmentList" model="@Model.Attachments" />
+    </div>
+
 </div>
+
+@section Scripts {
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    <script>
+        // Konfiguracija Dropzone opcija
+        Dropzone.options.profilePhotoDz = {
+            paramName: "file",
+            parallelUploads: 100,
+            maxFiles: 100
+        };
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetAttachments", "Client")',
+                type: 'GET',
+                data: { clientID: '@Model.ID' },
+                success: function (html) {
+                    $('#clientAttachments').html(html);
+                },
+                error: function () {
+                    alert('Dogodio se error');
+                }
+            });
+        });
+
+        $(document).on('click', '#deleteAttachment', function () {
+            var attachmentId = $(this).data('id');
+            var listItem = $(this).closest('li');
+
+            $.ajax({
+                url: '@Url.Action("DeleteAttachment", "Client")',
+                type: 'POST',
+                data: { id: attachmentId },
+                success: function () {
+                    listItem.remove();
+                },
+                error: function () {
+                    alert('Dogodio se error');
+                }
+            });
+        });
+
+
+    </script>
+}

@@ -38,4 +38,6 @@ public class Client
 
 	public virtual ICollection<Meeting>? Meetings { get; set; }
 
+	public virtual ICollection<Attachment>? Attachments { get; set; }
+
 }

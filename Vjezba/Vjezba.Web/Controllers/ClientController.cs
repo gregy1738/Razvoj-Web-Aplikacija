@@ -10,8 +10,15 @@ namespace Vjezba.Web.Controllers
 	public class ClientController(
         ClientManagerDbContext _dbContext) : Controller
     {
-        public IActionResult Index(ClientFilterModel filter = null)
+        public IActionResult Index()
         {
+			var clients = _dbContext.Clients.Include(p => p.City).ToList();
+			return View(clients);
+        }
+
+		[HttpPost]
+		public IActionResult IndexAjax(ClientFilterModel filter = null)
+		{
 			filter ??= new ClientFilterModel();
 
 			var clientQuery = _dbContext.Clients.Include(p => p.City).AsQueryable();
@@ -22,17 +29,17 @@ namespace Vjezba.Web.Controllers
 				clientQuery = clientQuery.Where(p => (p.FirstName + " " + p.LastName).ToLower().Contains(filter.FullName.ToLower()));
 
 			if (!string.IsNullOrWhiteSpace(filter.Address))
-                clientQuery = clientQuery.Where(p => p.Address.ToLower().Contains(filter.Address.ToLower()));
+				clientQuery = clientQuery.Where(p => p.Address.ToLower().Contains(filter.Address.ToLower()));
 
-            if (!string.IsNullOrWhiteSpace(filter.Email))
-                clientQuery = clientQuery.Where(p => p.Email.ToLower().Contains(filter.Email.ToLower()));
+			if (!string.IsNullOrWhiteSpace(filter.Email))
+				clientQuery = clientQuery.Where(p => p.Email.ToLower().Contains(filter.Email.ToLower()));
 
-            if (!string.IsNullOrWhiteSpace(filter.City))
+			if (!string.IsNullOrWhiteSpace(filter.City))
 				clientQuery = clientQuery.Where(p => p.CityID != null && p.City.Name.ToLower().Contains(filter.City.ToLower()));
 
-            var model = clientQuery.ToList();
-            return View(model);
-        }
+			var model = clientQuery.ToList();
+			return PartialView("_IndexTable", model);
+		}
 
         public IActionResult Details(int? id = null)
         {
@@ -66,6 +73,69 @@ namespace Vjezba.Web.Controllers
 				return View();
 			}
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> UploadAttachment(IFormFile file, int clientId)
+		{
+			if (file == null)
+				return BadRequest("No file uploaded.");
+
+			var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+			if (!Directory.Exists(uploadPath))
+			{
+				Directory.CreateDirectory(uploadPath);
+			}
+
+			var fileName = Path.GetFileName(file.FileName);
+			var filePath = Path.Combine(uploadPath, fileName);
+
+			using (var stream = new FileStream(filePath, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+
+			var attachment = new Attachment
+			{
+				FileName = fileName,
+				FilePath = filePath,
+				UploadDate = DateTime.Now,
+				ClientID = clientId
+			};
+
+			_dbContext.Attachments.Add(attachment);
+			await _dbContext.SaveChangesAsync();
+
+			return Ok(new { message = "File successfully uploaded." });
+		}
+
+		[HttpGet]
+		public IActionResult GetAttachments(int clientId)
+		{
+			var attachments = _dbContext.Attachments.Where(p => p.ClientID == clientId).ToList();
+
+            return PartialView("_AttachmentList", attachments);
+		}
+
+		[HttpPost]
+		public IActionResult DeleteAttachment(int id)
+		{
+			var attachment = _dbContext.Attachments.FirstOrDefault(p=> p.Id == id);
+
+			string fullpath = attachment.FilePath;
+			if (System.IO.File.Exists(fullpath))
+			{
+				System.IO.File.Delete(fullpath);
+			}
+
+			if(attachment != null)
+			{
+                _dbContext.Attachments.Remove(attachment);
+                _dbContext.SaveChanges();
+            }
+
+			return RedirectToAction(nameof(Index));
+		}
+
 
 		[ActionName(nameof(Edit))]
 		public IActionResult Edit(int id)

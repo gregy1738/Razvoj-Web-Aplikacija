@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Vjezba.Model;
 
 namespace Vjezba.DAL
 {
-	public class ClientManagerDbContext : DbContext
-	{
+	public class ClientManagerDbContext : IdentityDbContext<AppUser>
+    {
 		public ClientManagerDbContext(DbContextOptions<ClientManagerDbContext> options)
 			: base(options)
 		{
@@ -14,6 +15,7 @@ namespace Vjezba.DAL
 		public DbSet<Client> Clients { get; set; }
 		public DbSet<City> Cities { get; set; }
 		public DbSet<Meeting> Meetings { get; set; }
+		public DbSet<Attachment> Attachments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

@@ -1,0 +1,19 @@
+﻿@model List<Vjezba.Model.Attachment>
+
+<h4>Attachments</h4>
+<ul id="attachment-list" class="list-group">
+    @if (Model != null)
+    {
+        foreach (var attachment in Model)
+        {
+            <li class="list-group-item">
+                @attachment.FileName
+                <button type="button" class="btn btn-danger" id="deleteAttachment" data-id="@attachment.Id">Obriši</button>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="list-group-item">No attachments found.</li>
+    }
+</ul>
